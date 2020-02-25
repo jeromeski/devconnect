@@ -1,7 +1,7 @@
 import React from "react";
 import { Menu, Image, Dropdown } from "semantic-ui-react";
 
-const SignedInMenu = () => {
+const SignedInMenu = ({signOut}) => {
   return (
     <Menu.Item position="right">
       <Image avatar spaced="right" src="/assets/images/user.png" />
@@ -12,7 +12,7 @@ const SignedInMenu = () => {
           <Dropdown.Item text="My Network" icon="users" />
           <Dropdown.Item text="My Profile" icon="user" />
           <Dropdown.Item text="Settings" icon="settings" />
-          <Dropdown.Item text="Sign Out" icon="power" />
+          <Dropdown.Item text="Sign Out" icon="power" onClick={signOut}/>
         </Dropdown.Menu>
       </Dropdown>
     </Menu.Item>
