@@ -15,7 +15,6 @@ class LoginForm extends Component {
     email: "",
     password: "",
     errors: {}
-
   };
 
   handleTitleChange = ({ target: { name, value } }) => {
@@ -31,26 +30,38 @@ class LoginForm extends Component {
   render() {
     const { email, password } = this.state;
     return (
-      <Grid style={{ height: "100vh" }}>
+      <Grid
+        style={{
+          height: "100vh",
+          backgroundColor: "#1b1c1d"
+        }}>
         <Grid.Row verticalAlign="middle">
-          <Grid.Column width={5} />
-          <Grid.Column width={6}>
+          <Grid.Column width={6} />
+          <Grid.Column width={4}>
             <Segment vertical>
-              <Header textAlign="center" size="large">
+              <Header inverted textAlign="center" size="huge">
                 Welcome Back!
               </Header>
-              <Header textAlign="center" size="medium" style={{
-                fontWeight: '100', margin: 0
-              }}>
-                Don't miss your next opportunity. Sign in to stay updated on your professional world.
+              <Header
+                inverted
+                textAlign="center"
+                size="small"
+                style={{
+                  fontWeight: "100",
+                  margin: 0,
+                  letterSpacing: "1px"
+                }}>
+                Don't miss your next opportunity. &nbsp;Sign in to stay updated
+                on your professional world.
               </Header>
 
               <Divider></Divider>
-              <Header textAlign="center" size="small">
-                Enter your email & password
-              </Header>
               <Form size="large" onSubmit={this.handleFormSubmit}>
-                <Segment>
+                <Segment
+                  style={{
+                    padding: "1rem 2rem 2rem 2rem",
+                    backgroundColor: "#eeeeee"
+                  }}>
                   <Form.Field>
                     <label>Email</label>
                     <input
@@ -70,18 +81,14 @@ class LoginForm extends Component {
                       onChange={this.handleTitleChange}
                     />
                   </Form.Field>
-                  <Button
-                    fluid
-                    size="large"
-                    color="green"
-                    disabled={!email || !password}>
+                  <Button fluid size="large" color="green">
                     Submit
                   </Button>
                 </Segment>
               </Form>
             </Segment>
           </Grid.Column>
-          <Grid.Column width={5} />
+          <Grid.Column width={6} />
         </Grid.Row>
       </Grid>
     );

@@ -6,15 +6,18 @@ import {
   Checkbox,
   Grid,
   Header,
-  Divider
+  Divider,
+  Input
 } from "semantic-ui-react";
+import axios from "axios";
+import classnames from "classnames";
 
 class RegisterForm extends Component {
   state = {
     name: "",
     email: "",
     password: "",
-    password2: '',
+    password2: "",
     isChecked: false,
     errors: {}
   };
@@ -27,99 +30,124 @@ class RegisterForm extends Component {
 
   handleFormSubmit = evt => {
     evt.preventDefault();
-    console.log(this.state);
+    const newUser = {
+      name: this.state.name,
+      email: this.state.email,
+      password: this.state.password,
+      password2: this.state.password2
+    };
+
+    axios
+      .post("/api/users/register", newUser)
+      .then(res => console.log(res.data))
+      .catch(err => this.setState({ errors: err.response.data }));
   };
 
-  handleCheckbox = ()=> {
-    this.setState((prevState) => ({
+  handleCheckbox = () => {
+    this.setState(prevState => ({
       isChecked: !prevState.isChecked
-    }))
-  }
+    }));
+  };
 
   render() {
-
-    const {name, email, password, password2, isChecked} = this.state
+    const { name, email, password, password2, isChecked, errors } = this.state;
 
     return (
-      <Grid style={{ height: "100vh" }}>
+      <Grid 
+        style={{ 
+          height: "100vh", 
+          backgroundColor: '#1b1c1d' 
+        }}>
         <Grid.Row verticalAlign="middle">
-          <Grid.Column width={5} />
-          <Grid.Column width={6}>
+          <Grid.Column width={6} />
+          <Grid.Column width={5}>
             <Segment vertical>
               <Header 
-                textAlign="center" 
-                size="large"                
+                inverted 
+                textAlign="center"
+                style={{fontSize: '3.5rem'}}
+
               >
-                Don't have an account yet?
+                Coders Society
               </Header>
-              <Header 
-                textAlign="center" 
-                size="medium"
-                style={{fontWeight: '100', margin: 0}}
-              >
+              <Header
+                inverted
+                textAlign="center"
+                size="large"
+                style={{ fontWeight: "100", margin: 0 }}>
                 Make the most of your professional life
               </Header>
               <Divider></Divider>
-              <Header textAlign="center" size="small">
-                Sign up with your email & password
-              </Header>
-              <Form size="large" onSubmit={this.handleFormSubmit}>
-                <Segment>
+              
+              <Form size="large" 
+                onSubmit={this.handleFormSubmit}
+                  
+              >
+                <Segment
+                style={{
+                  padding: '2rem',
+                  backgroundColor: '#eeeeee'
+                }}
+                >
                   <Form.Field>
                     <label>Name</label>
-                    <input
+                    <Input
                       placeholder="Full Name"
                       name="name"
                       value={name}
+                      type="text"
                       onChange={this.handleTitleChange}
                     />
                   </Form.Field>
                   <Form.Field>
                     <label>Email</label>
-                    <input
+                    <Input
                       placeholder="Email"
                       name="email"
                       value={email}
+                      type="text"
                       onChange={this.handleTitleChange}
                     />
                   </Form.Field>
                   <Form.Field>
                     <label>Password</label>
-                    <input
+                    <Input
                       placeholder="password"
                       name="password"
                       value={password}
-                      type='password'
+                      type="password"
                       onChange={this.handleTitleChange}
+                      error={errors.password !== undefined}
                     />
                   </Form.Field>
                   <Form.Field>
                     <label>Confirm Password</label>
-                    <input placeholder="confirm password"
-                      name='password2' 
+                    <Input
+                      placeholder="confirm password"
+                      name="password2"
                       value={password2}
-                      type='password'
+                      type="password"
                       onChange={this.handleTitleChange}
+                      error={errors.password2 !== undefined}
                     />
-                  </Form.Field>
-                  <Form.Field>
-                    <Checkbox onChange={this.handleCheckbox} label="I agree to the Terms and Conditions" />
+                    {errors.password2 && (
+                      <div className="invalid-type">{errors.password2}</div>
+                    )}
                   </Form.Field>
                   <Button
                     fluid
                     size="large"
                     color="green"
-                    disabled={
-                      !name || !email || !password || !password2 || !isChecked ? true : false 
-                    }
+                    onSubmit={this.handleFormSubmit}
+                    style={{fontSize: '14px', padding: '1rem'}}
                     >
-                    Submit
+                    I AGREE TO THE TERMS & CONDITIONS
                   </Button>
                 </Segment>
               </Form>
             </Segment>
           </Grid.Column>
-          <Grid.Column width={5} />
+          <Grid.Column width={6} />
         </Grid.Row>
       </Grid>
     );
@@ -127,6 +155,3 @@ class RegisterForm extends Component {
 }
 
 export default RegisterForm;
-
-
-
